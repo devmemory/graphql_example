@@ -1,31 +1,15 @@
-import { gql } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import './app.css'
 import client from './client'
 import TableComponent from './components/table'
+import query from './query/index'
 
 function App() {
     const [value, setValue] = useState({ loading: true, data: undefined, error: undefined })
 
     useEffect(() => {
         async function init() {
-            const res = await client.query({
-                query: gql`
-                {
-                    books(id: 1) {
-                        title
-                        author
-                        test {
-                            user
-                            userId
-                        }
-                    }
-                    test(id: 0) {
-                        user
-                        userId
-                    }
-                }
-            `})
+            const res = await client.query({ query })
 
             const loading = res.loading
             let error
