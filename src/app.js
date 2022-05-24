@@ -2,6 +2,7 @@ import { gql } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import './app.css'
 import client from './client'
+import TableComponent from './components/table'
 
 function App() {
     const [value, setValue] = useState({ loading: true, data: undefined, error: undefined })
@@ -57,65 +58,28 @@ function App() {
     }
 
     if (value.data) {
+        const tableData = {
+            book: {
+                headList: ['Id', 'User', 'author', 'title'],
+                bodyList: [
+                    value.data.books.test.userId,
+                    value.data.books.test.user,
+                    value.data.books.author,
+                    value.data.books.title
+                ]
+            },
+            test: {
+                headList: ['Id', 'User'],
+                bodyList: [
+                    value.data.test.userId,
+                    value.data.test.user
+                ]
+            }
+        }
+
         component = (<div className='div_component'>
-            <table>
-                <thead>
-                    <tr>
-                        <th>
-                            Id
-                        </th>
-                        <th>
-                            User
-                        </th>
-                        <th>
-                            author
-                        </th>
-                        <th>
-                            title
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            {value.data.books.test.userId}
-                        </td>
-                        <td>
-                            {value.data.books.test.user}
-                        </td>
-                        <td>
-                            {value.data.books.author}
-                        </td>
-                        <td>
-                            {value.data.books.title}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>
-                            Id
-                        </th>
-                        <th>
-                            User
-                        </th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td>
-                            {value.data.test.userId}
-                        </td>
-                        <td>
-                            {value.data.test.user}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <TableComponent headList={tableData.book.headList} bodyList={tableData.book.bodyList} />
+            <TableComponent headList={tableData.test.headList} bodyList={tableData.test.bodyList} />
         </div>)
     }
 
